@@ -105,7 +105,7 @@ pipeline {
         }
 	stage('Trivy Scan'){
             steps {
-                sh 'trivy K8s --namespace=prod --report summary all --format -o trivy-fs-report.html'
+                sh 'trivy kubernetes --namespace=prod --report summary all --format table --output trivy-fs-report.txt'
             }
         }
     }
