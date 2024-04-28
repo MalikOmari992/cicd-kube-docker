@@ -80,6 +80,14 @@ pipeline {
           }
         }
 
+	stage('Scan Docker Image with Trivy') {
+            steps {
+                script {
+                    sh "trivy image ${registry}:V${BUILD_NUMBER}"
+                }
+            }
+	}
+
         stage('Upload Image'){
           steps{
             script {
@@ -101,17 +109,6 @@ pipeline {
           agent {label 'KOPS'}
             steps {
               sh "helm upgrade --install --force vprofile-stack helm/vprofilecharts --set appimage=${registry}:V${BUILD_NUMBER} --namespace prod"
-            }
-        }
-	stage('Scan Kubernetes with Trivy') {
-            steps {
-                script {
-                    // Define the path to the kubeconfig file
-                    def kubeconfigPath = '/home/ubuntu/.kube/config'
-                    
-                    // Run Trivy to scan Kubernetes with the specified kubeconfig file
-                    sh "trivy kubernetes --namespace=prod --report summary all --format table --output trivy-fs-report.txt --config ${kubeconfigPath}"
-                }
             }
         }
     }
