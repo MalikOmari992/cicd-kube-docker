@@ -114,7 +114,7 @@ pipeline {
 	stage ('DAST')
 	steps {
 		sshagent (['kops-login']) {
-			sh 'ssh -o StrictHostKeyChecking=no ubuntu@3.81.53.122 "docker run -t owasp/zap2docker-stable zap-baseline.py -t http://a27bea42ae3794f54bf46052cc697e4f-1595384964.us-east-1.elb.amazonaws.com/login"'
+			sh 'docker run -t ghcr.io/zaproxy/zaproxy:stable zap-full-scan.py -t http://a27bea42ae3794f54bf46052cc697e4f-1595384964.us-east-1.elb.amazonaws.com/login"'
 		}
 	}
     }
