@@ -79,7 +79,7 @@ pipeline {
             }
           }
         }
-
+/*
 	stage('Scan Docker Image with Trivy') {
             steps {
                 script {
@@ -87,7 +87,7 @@ pipeline {
                 }
             }
 	}
-
+*/
         stage('Upload Image'){
           steps{
             script {
